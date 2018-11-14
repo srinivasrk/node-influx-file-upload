@@ -1,17 +1,21 @@
-import sirv from 'sirv';
-import polka from 'polka';
+import express from 'express';
 import compression from 'compression';
 import * as sapper from '../__sapper__/server.js';
+const bodyParser = require('body-parser');
+import serve from 'serve-static';
+const fileUpload = require('express-fileupload');
 
-const { PORT, NODE_ENV } = process.env;
-const dev = NODE_ENV === 'development';
+const app = express();
+const { PORT = 3000 } = process.env;
 
-polka() // You can also use Express
-	.use(
-		compression({ threshold: 0 }),
-		sirv('static', { dev }),
-		sapper.middleware()
-	)
-	.listen(PORT, err => {
-		if (err) console.log('error', err);
-	});
+app.use(fileUpload());
+app.use(compression({ threshold: 0 }));
+app.use(bodyParser.json({limit: '50mb'}))
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(serve('assets'));
+app.use(serve('static'));
+app.use(sapper.middleware()); // This line is updated in sapper v0.20
+
+app.listen(PORT, () => {
+	console.log(`listening on port ${PORT}`);
+});

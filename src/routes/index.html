@@ -1,5 +1,5 @@
 <svelte:head>
-	<title> Node influx file upload</title>
+<title> Node influx file upload</title>
 </svelte:head>
 
 <UploadComponent id="site-upload" on:success="handleSuccess(event)" dropzoneopts={siteUploadData} ></UploadComponent>
@@ -41,6 +41,23 @@
 <script>
 	import UploadComponent from '../components/fileUploadComponent.html';
 	export default {
+		data() {
+			return {
+				siteUploadData : {
+					fileHandler:"/api/imports",
+					typeOfFiles:".csv",
+					maxFiles: 1
+				},
+			}
+		},
+		methods: {
+			handleSuccess(event){
+				if(event.id == "site-upload"){
+					console.log("calling site upload API")
+					console.log(event.response)
+				}
+			}
+		},
 		components: {
 			UploadComponent
 		}
