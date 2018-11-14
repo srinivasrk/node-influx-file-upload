@@ -2,7 +2,7 @@
 	<title> Node influx file upload</title>
 </svelte:head>
 
-<p><strong>Try editing this file (routes/index.html) to test hot module reloading.</strong></p>
+<UploadComponent id="site-upload" on:success="handleSuccess(event)" dropzoneopts={siteUploadData} ></UploadComponent>
 
 <style>
 	h1, figure, p {
@@ -37,3 +37,12 @@
 		}
 	}
 </style>
+
+<script>
+	import UploadComponent from '../components/fileUploadComponent.html';
+	export default {
+		components: {
+			UploadComponent
+		}
+	}
+</script>
