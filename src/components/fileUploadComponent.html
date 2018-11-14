@@ -1,0 +1,47 @@
+<form action="#" class="dropzone" id = {id}>
+  <div class="fallback">
+    <input name="sites_data" type="file" />
+  </div>
+</form>
+
+
+<script>
+// const csvparse = require('csv-parse');
+export default {
+  oncreate() {
+    var DropZone = require('dropzone');
+    require('dropzone/dist/dropzone.css');
+    const {id} = this.get();
+    const {fileHandler, typeOfFiles, maxFiles} = this.get().dropzoneopts;
+    console.log(this.get().dropzoneopts);
+    DropZone.autoDiscover = false;
+    //use the passed arguments to create the options object
+    let dzOpts = {
+      url: fileHandler,
+      timeout: 180000,
+      acceptedFiles: typeOfFiles,
+      maxFiles: maxFiles
+    };
+    this.dropZone = new DropZone(`form#${id}`, dzOpts);
+    let dz = this.dropZone;
+    dz.handleFiles = function(files) {
+      console.log('dz handle adding files: ', files)
+      var _this5 = this;
+      var files_array = [];
+      for (var i = 0; i < files.length; i++) {
+        files_array.push(files[i]);
+      }
+      return files_array.map(function(file) {
+        return _this5.addFile(file);
+      });
+    };
+    dz.on('success', (file, res) => {
+      this.fire('success',{id:this.get().id, response: res}) //handle additional events based on the success
+      // console.log(res);
+    });
+    this.dropZone.on('error', function(file, errorMessage) {
+      console.log(`Error uploading file: ${errorMessage}`);
+    });
+  }
+}
+</script>
