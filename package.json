@@ -18,8 +18,12 @@
     "express": "^4.16.4",
     "express-fileupload": "^1.0.0",
     "express-upload": "^0.1.0",
+    "fs-extra": "^7.0.1",
+    "influx": "^5.0.7",
+    "luxon": "^1.6.2",
     "polka": "^0.4.0",
-    "sirv": "^0.2.0"
+    "sirv": "^0.2.0",
+    "underscore": "^1.9.1"
   },
   "devDependencies": {
     "css-loader": "^1.0.1",
